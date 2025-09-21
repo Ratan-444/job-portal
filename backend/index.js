@@ -18,8 +18,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // ✅ Vercel-friendly CORS setup
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://job-portal-zd0i.onrender.com",
+  "https://job-portal.vercel.app"
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "https://job-portal-zd0i.onrender.com",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("❌ Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
