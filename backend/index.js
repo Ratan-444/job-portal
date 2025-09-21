@@ -43,6 +43,11 @@ app.options("*", cors());
 // Connect DB
 connectDB();
 
+app.get("/", (req, res) => {
+  res.send("✅ Job Portal Backend Running on Vercel 🚀");
+});
+
+
 // Routes
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
