@@ -17,12 +17,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// ✅ Change origin to your frontend deployed URL on Render
-const corsOptions = {
+// ✅ Vercel-friendly CORS setup
+app.use(cors({
   origin: process.env.FRONTEND_URL || "https://your-frontend.onrender.com",
-  credentials: true,
-};
-app.use(cors(corsOptions));
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+// ✅ Handle preflight requests for all routes
 app.options("*", cors());
 
 // Connect DB
