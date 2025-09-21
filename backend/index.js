@@ -19,34 +19,33 @@ app.use(cookieParser());
 
 // ✅ Vercel-friendly CORS setup
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://job-portal-zd0i.onrender.com",
-  "https://job-portal.vercel.app"
+  "http://localhost:3000",                  // dev
+  "https://job-portal-zd0i.onrender.com",   // render frontend
+  "https://job-portal.vercel.app"           // vercel frontend
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("❌ Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
-
-// ✅ Handle preflight requests for all routes
-app.options("*", cors());
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("❌ Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 // Connect DB
 connectDB();
 
+// Test route
 app.get("/", (req, res) => {
   res.send("✅ Job Portal Backend Running on Vercel 🚀");
 });
-
 
 // Routes
 app.use("/api/v1/user", userRoute);
