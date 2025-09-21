@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 // ✅ Vercel-friendly CORS setup
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "https://your-frontend.onrender.com",
+  origin: process.env.FRONTEND_URL || "https://job-portal-zd0i.onrender.com",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
