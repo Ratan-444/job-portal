@@ -105,16 +105,17 @@ export const login = async (req, res) => {
         // Set cookie for cross-site requests
 const isProd = process.env.NODE_ENV === "production";
 
-  return res.cookie("token", token, {
-  maxAge: 24 * 60 * 60 * 1000,
-  httpOnly: true,
-  secure: true,      // cookies need HTTPS
-  sameSite: "none"   // allow cross-site cookies
+        return res.cookie("token", token, {
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // must be HTTPS in production
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
 }).json({
     message: `Welcome back ${user.fullname}`,
     user: responseUser,
     success: true
 });
+
 
     } catch (error) {
         console.error("Login Error:", error.message);
